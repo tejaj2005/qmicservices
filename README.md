@@ -99,6 +99,7 @@ Log in to experience the different sides of the solution:
 While the focus is on the solution, the technology enables the scale:
 
 - **Frontend**: React (Vite) + **Tailwind CSS** (for rapid, professional UI).
+- **UI/UX**: Default **Light Mode** for clean visibility, with **Recharts** for data visualization.
 - **Backend**: Node.js + Express + **MongoDB** (for flexible schema evolution).
 - **Security**: JWT Auth + **Role-Based Guards** (Middleware).
 - **Communication**: REST APIs with **Axios Interceptors** for reliable data fetching.

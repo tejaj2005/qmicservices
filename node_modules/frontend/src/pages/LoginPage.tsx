@@ -60,7 +60,7 @@ const LoginPage = () => {
         }
     };
 
-    const handleDemoLogin = async (role: string, email: string, pass: string) => {
+    const handleDemoLogin = async (email: string, pass: string) => {
         try {
             setError('');
             localStorage.removeItem('token'); // Clear any stale session
@@ -157,7 +157,7 @@ const LoginPage = () => {
                                 <Button
                                     variant="outline"
                                     className="w-full justify-between hover:bg-slate-50 border-slate-200 h-auto py-3"
-                                    onClick={() => handleDemoLogin('GOV_ADMIN', 'government@user.in', 'Password12')}
+                                    onClick={() => handleDemoLogin('government@user.in', 'Password12')}
                                     disabled={isLoading}
                                 >
                                     <div className="flex flex-col items-start">
@@ -170,7 +170,7 @@ const LoginPage = () => {
                                 <Button
                                     variant="outline"
                                     className="w-full justify-between hover:bg-forest-50 border-forest-100 h-auto py-3"
-                                    onClick={() => handleDemoLogin('COMPANY_USER', 'company@user.in', 'Password12')}
+                                    onClick={() => handleDemoLogin('company@user.in', 'Password12')}
                                     disabled={isLoading}
                                 >
                                     <div className="flex flex-col items-start">
@@ -183,7 +183,7 @@ const LoginPage = () => {
                                 <Button
                                     variant="outline"
                                     className="w-full justify-between hover:bg-blue-50 border-blue-100 h-auto py-3"
-                                    onClick={() => handleDemoLogin('PUBLIC_USER', 'people@user.in', 'Password')}
+                                    onClick={() => handleDemoLogin('people@user.in', 'Password')}
                                     disabled={isLoading}
                                 >
                                     <div className="flex flex-col items-start">

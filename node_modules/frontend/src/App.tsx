@@ -30,7 +30,7 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <BrowserRouter>
         <Suspense fallback={
           <div className="flex h-screen w-full items-center justify-center bg-muted/20">

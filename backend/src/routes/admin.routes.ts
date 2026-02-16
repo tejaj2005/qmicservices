@@ -1,5 +1,5 @@
 import express from 'express';
-import PendingCompany from '../models/pendingCompany.model';
+
 import ActivityLog from '../models/activityLog.model';
 import { getPendingCompanies, verifyCompany } from '../controllers/admin.controller';
 import { authenticateToken, authorizeRole } from '../middleware/auth.middleware';

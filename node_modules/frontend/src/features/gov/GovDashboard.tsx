@@ -159,7 +159,7 @@ const GovDashboard = () => {
                 </Card>
 
                 {/* Recent Flags & Activity Feed */}
-                <Card className="col-span-1 lg:col-span-3 h-[450px]">
+                <Card className="col-span-1 lg:col-span-3 min-h-[450px]">
                     <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
                             <CardTitle>Live Monitor</CardTitle>
@@ -179,7 +179,7 @@ const GovDashboard = () => {
                             </div>
                         </div>
                     </CardHeader>
-                    <CardContent className="h-[380px] p-0">
+                    <CardContent className="p-0">
                         {feedTab === 'ANOMALIES' ? (
                             <div className="p-6 pt-0 space-y-6">
                                 {recentFlags.map((flag) => (
@@ -202,14 +202,15 @@ const GovDashboard = () => {
 
                                 <div className="pt-4 border-t">
                                     <h4 className="text-sm font-medium mb-4">Weekly Anomaly Spike</h4>
-                                    <div className="h-[100px]">
+                                    <div className="h-[140px] w-full mt-2">
                                         <ResponsiveContainer width="100%" height="100%">
-                                            <LineChart data={anomalyData}>
-                                                <Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={false} />
+                                            <LineChart data={anomalyData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                                                <Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
                                                 <Tooltip
-                                                    contentStyle={{ background: 'rgba(255, 255, 255, 0.9)', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                                    labelStyle={{ color: 'black' }}
+                                                    contentStyle={{ background: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                                    labelStyle={{ color: 'black', fontWeight: 600 }}
                                                 />
+                                                <XAxis dataKey="name" hide />
                                             </LineChart>
                                         </ResponsiveContainer>
                                     </div>
