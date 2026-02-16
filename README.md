@@ -8,6 +8,9 @@ The voluntary carbon market is plagued by **double-counting**, **inflated claims
 - Multiple entities sell the same credit twice.
 - Auditors lack real-time data to verify claims.
 
+## 🌐 Live Demo
+**Try the platform here:** [https://qmicservices.vercel.app](https://qmicservices.vercel.app)
+
 ## 💡 The Solution
 This platform introduces a **Digital Oversight Layer** that sits between Companies and the Government/Public. It solves fraud through three key mechanisms:
 
