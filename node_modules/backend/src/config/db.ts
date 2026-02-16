@@ -11,7 +11,12 @@ const connectDB = async () => {
         return cachedPromise;
     }
 
-    cachedPromise = mongoose.connect(process.env.MONGO_URI as string)
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+        throw new Error('MONGO_URI is not defined in environment variables');
+    }
+
+    cachedPromise = mongoose.connect(uri)
         .then((conn) => {
             console.log(`MongoDB Connected: ${conn.connection.host}`);
             return conn;
