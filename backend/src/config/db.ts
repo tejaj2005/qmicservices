@@ -11,7 +11,7 @@ const connectDB = async () => {
         return cachedPromise;
     }
 
-    cachedPromise = mongoose.connect(process.env.MONGO_URI as string || 'mongodb://127.0.0.1:27017/carbon_fraud_detection')
+    cachedPromise = mongoose.connect(process.env.MONGO_URI as string)
         .then((conn) => {
             console.log(`MongoDB Connected: ${conn.connection.host}`);
             return conn;
