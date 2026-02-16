@@ -12,8 +12,7 @@ import projectRoutes from './routes/project.routes';
 
 dotenv.config();
 
-// Connect to Database
-connectDB();
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -42,7 +41,9 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     res.status(500).json({ message: 'Internal Server Error', error: err.message });
 });
 
+// Connect to Database only in dev mode (Vercel handles it in api/index.ts)
 if (process.env.NODE_ENV !== 'production') {
+    connectDB();
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
