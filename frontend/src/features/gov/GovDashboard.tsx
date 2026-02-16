@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import api from '../../services/api';
+import ActivityFeed from './ActivityFeed';
 
 const riskData = [
     { name: 'Jan', risk: 400, verified: 2400 },
@@ -45,6 +46,8 @@ interface PendingCompany {
 const GovDashboard = () => {
     const [pendingCompanies, setPendingCompanies] = useState<PendingCompany[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [filter, setFilter] = useState<'ALL' | 'HIGH_PRIORITY'>('ALL');
+    const [feedTab, setFeedTab] = useState<'ANOMALIES' | 'ACTIVITY'>('ANOMALIES');
 
     useEffect(() => {
         fetchPendingCompanies();
@@ -73,15 +76,19 @@ const GovDashboard = () => {
     };
 
     return (
-        <div className="p-8 space-y-8 bg-slate-50 min-h-screen">
+        <div className="p-8 space-y-8 bg-slate-50 dark:bg-zinc-900 min-h-screen transition-colors">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-forest-900 font-heading">National Oversight Dashboard</h1>
+                    <h1 className="text-3xl font-bold text-forest-900 dark:text-forest-100 font-heading">National Oversight Dashboard</h1>
                     <p className="text-muted-foreground">Real-time fraud detection and compliance monitoring.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline"><Filter className="mr-2 h-4 w-4" /> Filter</Button>
-                    <Button variant="destructive"><AlertTriangle className="mr-2 h-4 w-4" /> High Priority (3)</Button>
+                    <Button variant={filter === 'ALL' ? "default" : "outline"} onClick={() => setFilter('ALL')}>
+                        <Filter className="mr-2 h-4 w-4" /> All
+                    </Button>
+                    <Button variant={filter === 'HIGH_PRIORITY' ? "destructive" : "outline"} onClick={() => setFilter((prev) => prev === 'HIGH_PRIORITY' ? 'ALL' : 'HIGH_PRIORITY')}>
+                        <AlertTriangle className="mr-2 h-4 w-4" /> High Priority
+                    </Button>
                 </div>
             </div>
 
@@ -151,43 +158,66 @@ const GovDashboard = () => {
                     </CardContent>
                 </Card>
 
-                {/* Recent Flags & Anomalies */}
-                <Card className="col-span-1 lg:col-span-3">
-                    <CardHeader>
-                        <CardTitle>Live Anomaly Feed</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-6">
-                            {recentFlags.map((flag) => (
-                                <div key={flag.id} className="flex items-start justify-between p-3 rounded-lg border bg-white hover:bg-slate-50 transition-colors cursor-pointer" onClick={() => window.location.href = '/gov/investigations'}>
-                                    <div className="space-y-1">
-                                        <div className="font-semibold">{flag.company}</div>
-                                        <div className="text-xs text-muted-foreground flex items-center">
-                                            <AlertTriangle className="h-3 w-3 mr-1 text-red-500" />
-                                            {flag.issue}
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <Badge variant={flag.severity === 'CRITICAL' ? 'destructive' : 'warning'}>
-                                            {flag.severity}
-                                        </Badge>
-                                        <div className="text-xs text-muted-foreground mt-1">{flag.time}</div>
-                                    </div>
-                                </div>
-                            ))}
-
-                            <div className="pt-4 border-t">
-                                <h4 className="text-sm font-medium mb-4">Weekly Anomaly Spike</h4>
-                                <div className="h-[100px]">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <LineChart data={anomalyData}>
-                                            <Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={false} />
-                                            <Tooltip />
-                                        </LineChart>
-                                    </ResponsiveContainer>
-                                </div>
+                {/* Recent Flags & Activity Feed */}
+                <Card className="col-span-1 lg:col-span-3 h-[450px]">
+                    <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between">
+                            <CardTitle>Live Monitor</CardTitle>
+                            <div className="flex gap-1 text-xs bg-muted p-1 rounded-md">
+                                <button
+                                    onClick={() => setFeedTab('ANOMALIES')}
+                                    className={`px-3 py-1 rounded-sm transition-all ${feedTab === 'ANOMALIES' ? 'bg-background shadow font-medium' : 'hover:bg-background/50 text-muted-foreground'}`}
+                                >
+                                    Anomalies
+                                </button>
+                                <button
+                                    onClick={() => setFeedTab('ACTIVITY')}
+                                    className={`px-3 py-1 rounded-sm transition-all ${feedTab === 'ACTIVITY' ? 'bg-background shadow font-medium' : 'hover:bg-background/50 text-muted-foreground'}`}
+                                >
+                                    Activity Log
+                                </button>
                             </div>
                         </div>
+                    </CardHeader>
+                    <CardContent className="h-[380px] p-0">
+                        {feedTab === 'ANOMALIES' ? (
+                            <div className="p-6 pt-0 space-y-6">
+                                {recentFlags.map((flag) => (
+                                    <div key={flag.id} className="flex items-start justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer" onClick={() => window.location.href = '/gov/investigations'}>
+                                        <div className="space-y-1">
+                                            <div className="font-semibold">{flag.company}</div>
+                                            <div className="text-xs text-muted-foreground flex items-center">
+                                                <AlertTriangle className="h-3 w-3 mr-1 text-red-500" />
+                                                {flag.issue}
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <Badge variant={flag.severity === 'CRITICAL' ? 'destructive' : 'warning'}>
+                                                {flag.severity}
+                                            </Badge>
+                                            <div className="text-xs text-muted-foreground mt-1">{flag.time}</div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                <div className="pt-4 border-t">
+                                    <h4 className="text-sm font-medium mb-4">Weekly Anomaly Spike</h4>
+                                    <div className="h-[100px]">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <LineChart data={anomalyData}>
+                                                <Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} dot={false} />
+                                                <Tooltip
+                                                    contentStyle={{ background: 'rgba(255, 255, 255, 0.9)', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                                    labelStyle={{ color: 'black' }}
+                                                />
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <ActivityFeed />
+                        )}
                     </CardContent>
                 </Card>
             </div>

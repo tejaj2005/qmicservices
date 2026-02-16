@@ -68,8 +68,16 @@ const SubmissionForm = () => {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Supporting Documents</label>
-                                <div className="border-2 border-dashed rounded-lg p-8 text-center hover:bg-slate-50 cursor-pointer transition-colors">
-                                    <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
+                                <div className="relative border-2 border-dashed rounded-lg p-8 text-center hover:bg-slate-50 dark:hover:bg-zinc-800 cursor-pointer transition-colors group">
+                                    <input
+                                        type="file"
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) alert(`File "${file.name}" selected for upload!`);
+                                        }}
+                                    />
+                                    <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2 group-hover:text-primary transition-colors" />
                                     <p className="text-sm text-muted-foreground">Drag and drop or click to upload PDF/CSV</p>
                                 </div>
                             </div>

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
+import { ModeToggle } from '../mode-toggle';
 
 const DashboardLayout = () => {
     const { user, logout } = useAuthStore();
@@ -65,10 +66,13 @@ const DashboardLayout = () => {
                         <p className="text-sm font-semibold">{user?.companyName || 'Government Agent'}</p>
                         <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                     </div>
-                    <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
-                        <LogOut className="h-4 w-4" />
-                        Sign Out
-                    </Button>
+                    <div className="flex gap-2">
+                        <ModeToggle />
+                        <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
+                            <LogOut className="h-4 w-4" />
+                            Sign Out
+                        </Button>
+                    </div>
                 </div>
             </aside>
 

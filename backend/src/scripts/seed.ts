@@ -4,6 +4,7 @@ import User from '../models/user.model';
 import Project from '../models/project.model';
 import Submission from '../models/submission.model';
 import Complaint from '../models/complaint.model';
+import ActivityLog from '../models/activityLog.model';
 import bcrypt from 'bcryptjs';
 
 dotenv.config();
@@ -18,6 +19,7 @@ const seedUsers = async () => {
         await Project.deleteMany({});
         await Submission.deleteMany({});
         await Complaint.deleteMany({});
+        await ActivityLog.deleteMany({});
         console.log('Cleared existing data');
 
         // 1. Create Users - Pass PLAIN TEXT passwords, let model hash them
@@ -135,6 +137,29 @@ const seedUsers = async () => {
 
         console.log('Complaints Created');
 
+        // 5. Create Activity Logs (Past Data)
+        const logs = [
+            { user: government._id, action: 'SYSTEM_INIT', severity: 'INFO', details: 'System Rebooted', time: 5 },
+            { user: company._id, action: 'LOGIN', severity: 'INFO', details: 'User Login from IP 192.168.1.1', time: 10 },
+            { user: pendingCompany._id, action: 'REGISTER', severity: 'INFO', details: 'New Company Registration', time: 15 },
+            { user: government._id, action: 'REVIEW_START', severity: 'INFO', details: `Reviewing ${pendingCompany.companyName}`, time: 20 },
+            { user: publicUser._id, action: 'SEARCH', severity: 'INFO', details: 'Searched for "Reforestation"', time: 60 },
+            { user: company._id, action: 'PROJECT_SUBMIT', severity: 'INFO', details: 'Submitted "Amazon Rainforst Project"', time: 120 },
+            { user: government._id, action: 'FLAG_RAISED', severity: 'WARNING', details: 'Satellite Mismatch Detected', time: 130 },
+            { user: government._id, action: 'ALERT_SENT', severity: 'CRITICAL', details: 'Compliance Violation Alert Sent', time: 140 },
+        ];
+
+        for (const log of logs) {
+            await ActivityLog.create({
+                user: log.user,
+                action: log.action,
+                severity: log.severity as any,
+                details: log.details,
+                createdAt: new Date(Date.now() - log.time * 60000) // Minutes ago
+            });
+        }
+        console.log('Activity Logs Seeded');
+
         console.log('-----------------------------------');
         console.log('Seeding Complete! Login Credentials:');
         console.log('Gov Admin: government@user.in / Password12');
@@ -143,7 +168,7 @@ const seedUsers = async () => {
         console.log('Public:    people@user.in / Password');
         console.log('-----------------------------------');
 
-        process.exit(0);
+        process.exit();
     } catch (error) {
         console.error('Seeding Failed:', error);
         process.exit(1);

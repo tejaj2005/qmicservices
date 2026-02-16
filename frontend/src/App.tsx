@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { Loader2 } from 'lucide-react';
+import { ThemeProvider } from "./components/theme-provider";
 
 import MainLayout from './components/layout/MainLayout';
 import ProtectedLayout from './components/layout/ProtectedLayout';
@@ -28,45 +29,47 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Suspense fallback={
-        <div className="flex h-screen w-full items-center justify-center bg-muted/20">
-          <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        </div>
-      }>
-        <Routes>
-          {/* Public Routes */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/search" element={<PublicRegistry />} />
-            <Route path="/complaint" element={<ComplaintForm />} />
-            <Route path="/architecture" element={<AiPipeline />} />
-          </Route>
-
-          {/* Company Routes */}
-          <Route element={<ProtectedLayout allowedRoles={['COMPANY_USER']} />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/company" element={<CompanyDashboard />} />
-              <Route path="/company/submit" element={<SubmissionForm />} />
-              <Route path="/company/claims" element={<div className="p-8 text-center text-muted-foreground">My Claims History</div>} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <BrowserRouter>
+        <Suspense fallback={
+          <div className="flex h-screen w-full items-center justify-center bg-muted/20">
+            <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          </div>
+        }>
+          <Routes>
+            {/* Public Routes */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/search" element={<PublicRegistry />} />
+              <Route path="/complaint" element={<ComplaintForm />} />
+              <Route path="/architecture" element={<AiPipeline />} />
             </Route>
-          </Route>
 
-          {/* Government Routes */}
-          <Route element={<ProtectedLayout allowedRoles={['GOV_ADMIN']} />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/gov" element={<GovDashboard />} />
-              <Route path="/gov/investigations" element={<InvestigationPanel />} />
-              <Route path="/gov/risk-map" element={<RiskMatrix />} />
+            {/* Company Routes */}
+            <Route element={<ProtectedLayout allowedRoles={['COMPANY_USER']} />}>
+              <Route element={<DashboardLayout />}>
+                <Route path="/company" element={<CompanyDashboard />} />
+                <Route path="/company/submit" element={<SubmissionForm />} />
+                <Route path="/company/claims" element={<div className="p-8 text-center text-muted-foreground">My Claims History</div>} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+            {/* Government Routes */}
+            <Route element={<ProtectedLayout allowedRoles={['GOV_ADMIN']} />}>
+              <Route element={<DashboardLayout />}>
+                <Route path="/gov" element={<GovDashboard />} />
+                <Route path="/gov/investigations" element={<InvestigationPanel />} />
+                <Route path="/gov/risk-map" element={<RiskMatrix />} />
+              </Route>
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
