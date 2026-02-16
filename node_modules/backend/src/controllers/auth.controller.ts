@@ -46,6 +46,7 @@ export const register = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'Invalid user data' });
         }
     } catch (error: any) {
+        console.error('[AUTH ERROR] Register failed:', error);
         res.status(500).json({ message: error.message });
     }
 };
@@ -75,6 +76,8 @@ export const login = async (req: Request, res: Response) => {
             res.status(401).json({ message: 'Invalid email or password' });
         }
     } catch (error: any) {
+        console.error('[AUTH ERROR] Login failed:', error);
+        console.error(error.stack);
         res.status(500).json({ message: error.message });
     }
 };
