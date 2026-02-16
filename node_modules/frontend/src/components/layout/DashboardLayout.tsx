@@ -6,11 +6,20 @@ import {
     AlertTriangle,
     LogOut,
     ShieldCheck,
-    Search
+    Search,
+    Bell
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';
 import { ModeToggle } from '../mode-toggle';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const DashboardLayout = () => {
     const { user, logout } = useAuthStore();
@@ -68,6 +77,41 @@ const DashboardLayout = () => {
                     </div>
                     <div className="flex gap-2">
                         <ModeToggle />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="icon">
+                                    <Bell className="h-[1.2rem] w-[1.2rem]" />
+                                    <span className="sr-only">Notifications</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-80">
+                                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <div className="max-h-[300px] overflow-y-auto">
+                                    <DropdownMenuItem className="flex flex-col items-start gap-1 p-3 cursor-pointer">
+                                        <div className="flex justify-between w-full">
+                                            <span className="font-medium text-xs">System Analysis</span>
+                                            <span className="text-[10px] text-muted-foreground">Just now</span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">AI verification algorithms updated for forest biomass.</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="flex flex-col items-start gap-1 p-3 cursor-pointer">
+                                        <div className="flex justify-between w-full">
+                                            <span className="font-medium text-xs">Policy Alert</span>
+                                            <span className="text-[10px] text-muted-foreground">2h ago</span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">New compliance standards for Q3 2026 released.</p>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="flex flex-col items-start gap-1 p-3 cursor-pointer">
+                                        <div className="flex justify-between w-full">
+                                            <span className="font-medium text-xs">Maintenance</span>
+                                            <span className="text-[10px] text-muted-foreground">1d ago</span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">Scheduled downtime this Sunday 2 AM - 4 AM.</p>
+                                    </DropdownMenuItem>
+                                </div>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
                             <LogOut className="h-4 w-4" />
                             Sign Out

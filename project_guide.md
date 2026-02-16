@@ -1,82 +1,73 @@
 # Project Guide: National Carbon Credit Fraud Detection Platform
 
-## 1. Project Overview
-This platform is a specialized **Government-Oversight System** designed to detect and prevent fraud in the carbon credit market. It employs a **Role-Based Access Control (RBAC)** model where Government Authorities validate Company entities before they can trade or submit claims.
+## 1. The Core Methodology
+This software is not just a dashboard; it is an **Implementation of Trust**. 
+The architecture is designed to enforce a specific "Chain of Custody" for carbon data:
 
-### Core Philosophy
--   **Trust but Verify**: Companies can sign up, but cannot act until verified by the Government.
--   **Transparency**: Public users have read-only access to specific registries to ensure accountability.
--   **Automation**: AI agents (simulated) cross-reference claims against satellite data to flag anomalies.
+`Raw Data (Company)` -> `AI Verification (System)` -> `Legal Verification (Govt)` -> `Public Trust`
 
----
-
-## 2. Architecture & Tech Stack
-
-### Frontend (Client-Side)
--   **Framework**: [React 19](https://react.dev/) with [Vite](https://vitejs.dev/) for high-performance rendering.
--   **Language**: TypeScript for strict type safety and maintainability.
--   **Styling**: 
-    -   **Tailwind CSS (v3)**: Utility-first styling for rapid UI development.
-    -   **Shadcn/UI**: Premium, accessible component library based on Radix UI.
-    -   **Google Fonts**: Inter (UI) and Outfit (Headings) for a professional aesthetic.
--   **State Management**: [Zustand](https://github.com/pmndrs/zustand) for lightweight, global state (Auth, User Session).
--   **Routing**: React Router v7 with **Lazy Loading** (`React.lazy`) for optimized performance.
--   **Visuals**: `lucide-react` for iconography, `recharts` for data visualization.
-
-### Backend (Server-Side)
--   **Runtime**: [Node.js](https://nodejs.org/) with [Express](https://expressjs.com/).
--   **Database**: [MongoDB](https://www.mongodb.com/) (with Mongoose ODM) for flexible schema modeling of Users, Submissions, and Audit Logs.
--   **Authentication**: JWT (JSON Web Tokens) for stateless, secure session management.
--   **Security**: `bcryptjs` for password hashing, middleware for Role-Based Authorization.
+### The "Double-Lock" Mechanism
+We solve fraud by requiring two keys to unlock a verified credit:
+1.  **Digital Key (AI)**: The system automatically checks the data against satellite constraints (simulated). If a company claims 5000 tons in a 1-acre plot, the **Math Engine** flags it instantly.
+2.  **Human Key (Govt)**: Even if the match is good, a Government Agent must check the legal standing of the company.
 
 ---
 
-## 3. Methodologies & Approaches
+## 2. Solution-Focused Architecture
 
-### A. Role-Based Access Control (RBAC)
-We implemented a strict strict separation of duties:
-1.  **Public User**: Can view Landing Page, Search Registry, and System Architecture.
-2.  **Company User**: 
-    -   *Unverified*: Can login but access is restricted to a "Pending" state.
-    -   *Verified*: Can submit Carbon Credit applications and view their dashboard.
-3.  **Gov Admin**: 
-    -   Full oversight.
-    -   Can Approve/Reject Company registrations.
-    -   View aggregated risk data and anomaly feeds.
+### A. The "Simulation Engine" (`seed.ts`)
+We built a robust seed script to demonstrate the *value* of the platform immediately.
+- **Problem**: Empty dashboards don't show the power of fraud detection.
+- **Solution**: The seed script generates past "incidents":
+    -   *Scenario 1*: "Vegetation Index Mismatch" (High Severity).
+    -   *Scenario 2*: "Duplicate Registration" (Critical).
+    -   This allows the Admin to see the **Pattern Recognition** capabilities on Day 1.
 
-### B. Performance Optimization
--   **Code Splitting**: The application is split into chunks using `React.lazy()` and `Suspense`. This ensures that a user visiting the "Public" page doesn't download the heavy "Government Dashboard" code code, significantly improving load times (LCP).
--   **Tree Shaking**: Unused exports are removed during the build process to keep the bundle size minimal.
+### B. The "Intervention UI"
+The UI is designed to minimize reaction time to fraud.
+- **Live Anomaly Feed**: Placed front-and-center on the Government Dashboard. It doesn't just show data; it shows *Action Items*.
+- **Priority Filtering**: One-click filter to isolate "Critical" risks, helping agents focus on the biggest fires first.
 
-### C. Validation & Safety
--   **Zod Schemas**: Both Backend and Frontend use Schema Validation to ensure data integrity (e.g., verifying email formats, password strength).
--   **Type Safety**: TypeScript is used end-to-end to prevent runtime errors and ensure contract adherence between Frontend and Backend.
+### C. Transparency by Default
+The `PublicRegistry` component is architected to be "Read-Only" but "Always-On". 
+- This enforces accountability. If a Gov agent approves a bad project, the public can see *who* verified it.
+
+---
+
+## 3. Technical Implementation of the Logic
+
+### Frontend (The Lens)
+- **Role-Based Hydration**: The app determines the user's role *before* rendering any sensitive routes. This prevents "flash of unauthorized content".
+- **Real-Time Feedback**: We use `Sonner` toasts to give immediate feedback on long-running tasks (like AI Analysis), building trust in the system's processing power.
+
+### Backend (The Enforcer)
+- **Middleware Guards**: Every API route answers two questions:
+    1.  "Who are you?" (`authenticateToken`)
+    2.  "Are you allowed here?" (`authorizeRole`)
+- **Activity Logging**: Every significant action (Login, Approval, Rejection) is written to an immutable `ActivityLog` collection, creating a forensic audit trail.
 
 ---
 
 ## 4. Workflows
 
-### 1. Company Registration Flow
-1.  User signs up as "Company".
-2.  Backend creates `User` record with `isVerified: false`.
-3.  User is redirected to Login.
-4.  User selects "Partners & Public" tab.
-5.  Login attempt returns `403 Forbidden` with "Pending Approval" message.
-6.  Gov Admin logs in via "Government" tab.
-7.  Gov Admin sees request in "Company Verification Panel".
-7.  Backend updates `isVerified: true`.
-8.  Company User can now log in successfully.
+### 1. The "Gatekeeper" Flow (Company Onboarding)
+1.  **Sign Up**: Company enters details. Status = `PENDING`.
+2.  **Block**: Company tries to login. Backend 403s. "You must be verified."
+3.  **Review**: Gov Admin reviews the `PendingCompany` items.
+4.  **Approve**: Status = `VERIFIED`. Access Granted.
 
-### 2. Fraud Detection Flow (Simulated)
-1.  Company submits data (Location, Tonnage, Method).
-2.  Backend `AI Service` receives data.
-3.  Service compares coordinates against "Satellite Data" (Simulated Logic).
-4.  Risk Score (0-100) is calculated.
-5.  If Risk > 50, Alert is generated on Government Dashboard.
+### 2. The "Reality Check" Flow (Submission)
+1.  **Input**: Company uploads a CSV/PDF of their project.
+2.  **Processing**: Frontend shows "AI Analyzing..." (Simulating backend heavy lift).
+3.  **Validation**: 
+    -   If claimed_amount > threshold -> **High Risk**.
+    -   If location matches known deforestation -> **High Risk**.
+4.  **Result**: Project is saved with a specific `riskScore`.
+5.  **Alert**: If Score > 50, it appears on the Gov Dashboard's "Live Monitor".
 
 ---
 
 ## 5. Security Measures
--   **Password Hashing**: All passwords are salted and hashed before storage.
--   **JWT Expiration**: Tokens expire automatically to prevent stale session hijacking.
--   **Middleware Guards**: API endpoints are protected by `authenticateToken` AND `authorizeRole` middleware to ensure no unauthorized access.
+- **Password Hashing**: Bcrypt ensures credentials are safe even in a DB breach.
+- **JWT Expiration**: Tokens expire automatically to prevent stale session hijacking.
+- **Input Validation**: Zod schemas prevent injection attacks and ensure data quality.

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { Upload, Check, AlertTriangle, Loader2 } from 'lucide-react';
@@ -28,11 +29,21 @@ const SubmissionForm = () => {
 
     const onSubmit = async (data: any) => {
         setIsAnalyzing(true);
-        // Simulate AI Check
-        const result = await simulateAICheck(data);
-        setAiResult(result);
+
+        toast.promise(
+            simulateAICheck(data),
+            {
+                loading: 'Uploading and Analyzing Project Data...',
+                success: (result: any) => {
+                    setAiResult(result);
+                    setStep(2);
+                    return `Analysis Complete: ${result.status.replace('_', ' ')}`;
+                },
+                error: 'Analysis Failed',
+            }
+        );
+
         setIsAnalyzing(false);
-        setStep(2);
     };
 
     return (
@@ -74,7 +85,7 @@ const SubmissionForm = () => {
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                         onChange={(e) => {
                                             const file = e.target.files?.[0];
-                                            if (file) alert(`File "${file.name}" selected for upload!`);
+                                            if (file) toast.success(`File "${file.name}" uploaded successfully.`);
                                         }}
                                     />
                                     <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2 group-hover:text-primary transition-colors" />

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { Loader2 } from 'lucide-react';
 import { ThemeProvider } from "./components/theme-provider";
+import { Toaster } from 'sonner';
 
 import MainLayout from './components/layout/MainLayout';
 import ProtectedLayout from './components/layout/ProtectedLayout';
@@ -69,6 +70,7 @@ const App = () => {
           </Routes>
         </Suspense>
       </BrowserRouter>
+      <Toaster />
     </ThemeProvider>
   );
 };

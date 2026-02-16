@@ -1,47 +1,45 @@
 qmicservices/
 ├── backend/                  # Node.js + Express Backend
 │   ├── src/
-│   │   ├── config/           # Database Connection
-│   │   ├── controllers/      # Logic (Auth, Admin, Company)
-│   │   ├── middleware/       # Auth & Role Guards
-│   │   ├── models/           # Mongoose Schemas (User, Submission)
-│   │   ├── routes/           # API Endpoints
-│   │   ├── services/         # Business Logic (AI Engine)
-│   │   └── server.ts         # Entry Point
-│   ├── .env.example          # Env Template (PORT, MONGO_URI)
-│   ├── package.json          # Backend Dependencies
-│   └── tsconfig.json         # TypeScript Config
+│   │   ├── config/           
+│   │   ├── controllers/      
+│   │   ├── middleware/       
+│   │   ├── models/           # Mongoose Schemas (User, Submission, ActivityLog)
+│   │   ├── routes/           
+│   │   ├── services/         
+│   │   └── server.ts         
+│   ├── .env.example          
+│   ├── package.json          
+│   └── tsconfig.json         
 │
 ├── frontend/                 # React + Vite Frontend
 │   ├── src/
 │   │   ├── components/       # Reusable UI
-│   │   │   ├── layout/       # Dashboards & Wrappers
-│   │   │   └── ui/           # Buttons, Cards, Inputs (Shadcn)
+│   │   │   ├── layout/       
+│   │   │   │   └── DashboardLayout.tsx # (Includes Notification Center)
+│   │   │   ├── ui/           # Shadcn Components
+│   │   │   │   ├── avatar.tsx
+│   │   │   │   ├── scroll-area.tsx
+│   │   │   │   ├── dropdown-menu.tsx
+│   │   │   │   └── button.tsx ...
+│   │   │   ├── theme-provider.tsx
+│   │   │   └── mode-toggle.tsx
 │   │   ├── features/         # Feature-Specific Views
-│   │   │   ├── company/      # Company Pages
-│   │   │   ├── gov/          # Govt Dashboard
-│   │   │   └── public/       # Landing & Complaint
-│   │   ├── lib/              # Utilities (cn, helpers)
-│   │   ├── pages/            # Page Components (Login, Register)
-│   │   ├── services/         # Axios API Client
-│   │   ├── store/            # Zustand State
-│   │   ├── App.tsx           # Router & Lazy Loading
-│   │   └── main.tsx          # React Root
-│   ├── index.html            # Entry HTML
-│   ├── postcss.config.cjs    # CSS Processor
-│   ├── tailwind.config.js    # Theme/Fonts Setup
-│   ├── package.json          # Frontend Dependencies
-│   └── vite.config.ts        # Bundler Config
+│   │   │   ├── company/      
+│   │   │   │   └── SubmissionForm.tsx # (Includes Upload Simulation)
+│   │   │   ├── gov/          
+│   │   │   │   ├── GovDashboard.tsx
+│   │   │   │   └── ActivityFeed.tsx   # (Live Logs)
+│   │   │   └── public/       
+│   │   ├── services/         
+│   │   ├── store/            
+│   │   ├── App.tsx           # (Wrapped in ThemeProvider + Toaster)
+│   │   └── main.tsx          
+│   ├── index.html            
+│   ├── package.json          
+│   └── vite.config.ts        
 │
-├── project_guide.md          # Architecture Guide
-├── README.md                 # Setup Instructions
-└── structure.txt             # This File
+├── project_guide.md          # Implementation Philosophy
+├── README.md                 # Solution Overview & Setup
+└── structure.txt             # Project Tree
 
----
-Tech Stack Mapping:
-- Backend: Node.js, Express, MongoDB, Mongoose, JWT, Bcrypt
-- Frontend: React 19, Vite, TypeScript, Tailwind CSS, Shadcn/UI
-- State: Zustand
-- Charts: Recharts
-- Icons: Lucide React
-- Fonts: Inter, Outfit (Google Fonts)
