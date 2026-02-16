@@ -4,6 +4,7 @@ import { useAuthStore } from './store/authStore';
 import { Loader2 } from 'lucide-react';
 import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from 'sonner';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import MainLayout from './components/layout/MainLayout';
 import ProtectedLayout from './components/layout/ProtectedLayout';
@@ -71,6 +72,7 @@ const App = () => {
         </Suspense>
       </BrowserRouter>
       <Toaster />
+      <SpeedInsights />
     </ThemeProvider>
   );
 };
