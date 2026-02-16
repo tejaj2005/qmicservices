@@ -1,0 +1,47 @@
+qmicservices/
+├── backend/                  # Node.js + Express Backend
+│   ├── src/
+│   │   ├── config/           # Database Connection
+│   │   ├── controllers/      # Logic (Auth, Admin, Company)
+│   │   ├── middleware/       # Auth & Role Guards
+│   │   ├── models/           # Mongoose Schemas (User, Submission)
+│   │   ├── routes/           # API Endpoints
+│   │   ├── services/         # Business Logic (AI Engine)
+│   │   └── server.ts         # Entry Point
+│   ├── .env.example          # Env Template (PORT, MONGO_URI)
+│   ├── package.json          # Backend Dependencies
+│   └── tsconfig.json         # TypeScript Config
+│
+├── frontend/                 # React + Vite Frontend
+│   ├── src/
+│   │   ├── components/       # Reusable UI
+│   │   │   ├── layout/       # Dashboards & Wrappers
+│   │   │   └── ui/           # Buttons, Cards, Inputs (Shadcn)
+│   │   ├── features/         # Feature-Specific Views
+│   │   │   ├── company/      # Company Pages
+│   │   │   ├── gov/          # Govt Dashboard
+│   │   │   └── public/       # Landing & Complaint
+│   │   ├── lib/              # Utilities (cn, helpers)
+│   │   ├── pages/            # Page Components (Login, Register)
+│   │   ├── services/         # Axios API Client
+│   │   ├── store/            # Zustand State
+│   │   ├── App.tsx           # Router & Lazy Loading
+│   │   └── main.tsx          # React Root
+│   ├── index.html            # Entry HTML
+│   ├── postcss.config.cjs    # CSS Processor
+│   ├── tailwind.config.js    # Theme/Fonts Setup
+│   ├── package.json          # Frontend Dependencies
+│   └── vite.config.ts        # Bundler Config
+│
+├── project_guide.md          # Architecture Guide
+├── README.md                 # Setup Instructions
+└── structure.txt             # This File
+
+---
+Tech Stack Mapping:
+- Backend: Node.js, Express, MongoDB, Mongoose, JWT, Bcrypt
+- Frontend: React 19, Vite, TypeScript, Tailwind CSS, Shadcn/UI
+- State: Zustand
+- Charts: Recharts
+- Icons: Lucide React
+- Fonts: Inter, Outfit (Google Fonts)

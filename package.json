@@ -1,0 +1,17 @@
+{
+    "name": "qmicservices-platform",
+    "version": "1.0.0",
+    "description": "Root orchestration for Carbon Fraud Detection Platform",
+    "scripts": {
+        "postinstall": "npm install --prefix backend && npm install --prefix frontend",
+        "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+        "start": "npm run dev"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    },
+    "workspaces": [
+        "backend",
+        "frontend"
+    ]
+}

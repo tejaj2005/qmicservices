@@ -1,0 +1,10 @@
+src/controllers/public.controller.ts(2,10): error TS2724: '"../models/user.model"' has no exported member named 'users'. Did you mean 'IUser'?
+src/controllers/public.controller.ts(3,10): error TS2724: '"../models/submission.model"' has no exported member named 'submissions'. Did you mean 'ISubmission'?
+src/controllers/public.controller.ts(7,36): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/controllers/public.controller.ts(11,39): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/controllers/public.controller.ts(19,51): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/controllers/public.controller.ts(22,44): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/models/user.model.ts(45,9): error TS2349: This expression is not callable.
+  Type 'SaveOptions' has no call signatures.
+src/models/user.model.ts(49,5): error TS2349: This expression is not callable.
+  Type 'SaveOptions' has no call signatures.
